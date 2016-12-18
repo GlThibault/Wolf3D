@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:50:28 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/18 16:40:11 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/18 17:56:39 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ int		main(int ac, char **av)
 	mlx_key_hook(t->win, key_hook, t);
 	mlx_put_image_to_window(t->mlx, t->win, t->img, 0, 0);
 	mlx_string_put(t->mlx, t->win, 10, 10, 0xFFFFFF, "Wolf3d");
+	calc(t);
 	mlx_loop(t->mlx);
 }

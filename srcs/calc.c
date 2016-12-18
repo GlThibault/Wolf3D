@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_linelen.c                                       :+:      :+:    :+:   */
+/*   calc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/17 15:50:16 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/18 18:50:10 by tglandai         ###   ########.fr       */
+/*   Created: 2016/12/18 15:27:51 by tglandai          #+#    #+#             */
+/*   Updated: 2016/12/18 18:48:34 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "wolf3d.h"
 
-size_t	ft_linelen(const char *s)
+void	calc(t_fractol *t)
 {
-	size_t	count;
+	int	x;
 
-	count = 0;
-	while (s[count] && s[count] != '\n')
-		count++;
-	return (count);
+	t->posX = 22;
+	t->posY = 12;
+	t->planeX = 0;
+	t->planeY = 0.66;
+	x = 0;
+	while (x < winX)
+	{
+		t->cameraX = 2 * x / winX - 1;
+		t->rayPosX = t->PosX;
+		t->rayPosY = t->PosY;
+		t->rayDirX = t->dirX + t->planeX * t->cameraX;
+		t->rayDirY = t->dirY + t->planeY * t->cameraX;
+		t->mapX = rayPosX;
+		t->mapY = rayPosY;
+	}
 }

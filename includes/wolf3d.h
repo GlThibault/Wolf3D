@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:51:03 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/18 15:25:30 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/18 18:47:59 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ typedef struct	s_wolf3d
 	double		dirY;
 	double		planeX;
 	double		planeY;
+	double		rayPosX;
+	double		rayPosY;
+	double		rayDirX;
+	double		rayDirY;
+	double		cameraX;
+	int			mapX;
+	int			mapY;
 	int			delete1;
 }				t_wolf3d;
 
