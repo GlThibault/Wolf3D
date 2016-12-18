@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:51:03 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/18 15:05:05 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/18 15:25:30 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <fcntl.h>
 # include <mlx.h>
 
-# define winX 512
-# define winY 384
+# define winX 1024
+# define winY 768
 # define USAGE "usage: wolf3d \"map\"\n"
 
 typedef struct	s_wolf3d
@@ -36,6 +36,12 @@ typedef struct	s_wolf3d
 	void		*win;
 	void		*img;
 	void		*img_ptr;
+	double		posX;
+	double		posY;
+	double		dirX;
+	double		dirY;
+	double		planeX;
+	double		planeY;
 	int			delete1;
 }				t_wolf3d;
 

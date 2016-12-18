@@ -6,12 +6,11 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:50:28 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/18 15:19:31 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/18 16:40:11 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
-#include <stdio.h>
 
 int		ft_close(void)
 {
@@ -31,6 +30,12 @@ void	mlx_win_init(t_wolf3d *t)
 {
 	char	*title;
 
+	t->posX = 22;
+	t->posX = 12;
+	t->dirX = -1;
+	t->dirY = 0;
+	t->planeX = 0;
+	t->planeY = 0.66;
 	title = ft_strjoin("Wolf3d : ", t->map_name);
 	t->mlx = mlx_init();
 	t->win = mlx_new_window(t->mlx, winX, winY, title);
@@ -52,7 +57,6 @@ int		main(int ac, char **av)
 	if (!(parser(t, av)))
 		return (0);
 	mlx_win_init(t);
-	printf("test\n");
 	mlx_hook(t->win, 17, 0L, ft_close, t);
 	mlx_key_hook(t->win, key_hook, t);
 	mlx_put_image_to_window(t->mlx, t->win, t->img, 0, 0);
