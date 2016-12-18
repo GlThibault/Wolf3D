@@ -6,14 +6,14 @@
 #    By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 12:18:57 by tglandai          #+#    #+#              #
-#    Updated: 2016/12/15 16:49:28 by tglandai         ###   ########.fr        #
+#    Updated: 2016/12/18 13:39:24 by tglandai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = wolf3d
 
 SRC_PATH = srcs
-SRC_NAME = main.c
+SRC_NAME = main.c parser.c
 
 OBJ_PATH = objs
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -34,7 +34,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@make -C libft
 	@$(CC) $(LDFLAGS) $(LDLIBS) $^ -o $@
-	@echo "Compilation of Fractol:	\033[1;32mOK\033[m"
+	@echo "Compilation of Wolf3d:	\033[1;32mOK\033[m"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
@@ -44,12 +44,12 @@ clean:
 	@make -C libft clean
 	@rm -f $(OBJ)
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
-	@echo "Fractol: Removing Objs"
+	@echo "Wolf3d:	Removing Objs"
 
 fclean: clean
 	@make -C libft fclean
 	@rm -f $(NAME)
-	@echo "Fractol : Removing Fractol"
+	@echo "Wolf3d:	Removing Wolf3d"
 
 re: fclean all
 

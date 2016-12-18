@@ -6,7 +6,7 @@
 #    By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 12:18:57 by tglandai          #+#    #+#              #
-#    Updated: 2016/12/04 13:09:41 by tglandai         ###   ########.fr        #
+#    Updated: 2016/12/18 13:39:33 by tglandai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRC_NAME = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c		\
 		ft_putstr.c ft_putendl.c ft_putnbr.c ft_putchar_fd.c ft_putstr_fd.c	\
 		ft_putendl_fd.c ft_putnbr_fd.c ft_lstnew.c ft_lstdelone.c ft_lstdel.c\
 		ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_isspace.c ft_get_next_line.c\
-		ft_getnbr.c ft_countlines.c
+		ft_getnbr.c ft_countlines.c ft_linelen.c
 
 OBJ_PATH = objs
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -52,11 +52,11 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 clean:
 	@rm -f $(OBJ)
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
-	@echo "Libft: Removing Objs"
+	@echo "Libft:	Removing Objs"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "Libft: Removing Libft"
+	@echo "Libft:	Removing Libft"
 
 re: fclean all
 
