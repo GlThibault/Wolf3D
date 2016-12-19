@@ -6,7 +6,7 @@
 #    By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 12:18:57 by tglandai          #+#    #+#              #
-#    Updated: 2016/12/19 15:11:07 by tglandai         ###   ########.fr        #
+#    Updated: 2016/12/19 17:35:58 by tglandai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,13 @@ CC = clang
 CFLAGS = -Wall -Werror -Wextra
 
 CPPFLAGS = -I includes -I libft/includes -I mlx_macos_sierra
+#-I mlx_macos_sierra
+#-I x11
 
 LDFLAGS = -L libft
 LDLIBS = -lft -lm -L mlx_macos_sierra -lmlx -framework OpenGL -framework AppKit
+#-lmlx_Linux -L/usr/X11/lib -lXext -lX11
+#-L mlx_macos_sierra
 
 SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
