@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:51:03 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/18 18:47:59 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/19 15:10:13 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <mlx.h>
+# include <math.h>
 
 # define winX 1024
 # define winY 768
@@ -49,9 +50,23 @@ typedef struct	s_wolf3d
 	double		cameraX;
 	int			mapX;
 	int			mapY;
+	double		sideDistX;
+	double		sideDistY;
+	double		deltaDistX;
+	double		deltaDistY;
+	double		perpWallDist;
+	int			stepX;
+	int			stepY;
+	int			hit;
+	int			side;
+	int			h;
+	int			drawStart;
+	int			drawEnd;
+	int			lineHeight;
 	int			delete1;
 }				t_wolf3d;
 
+void			calc(t_wolf3d *t);
 void			quit(void);
 int				parser(t_wolf3d *t, char **av);
 int				parser2(t_wolf3d *t, char **av);
