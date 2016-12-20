@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:51:03 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/19 15:10:13 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/20 21:23:20 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,37 +37,50 @@ typedef struct	s_wolf3d
 	void		*win;
 	void		*img;
 	void		*img_ptr;
-	double		posX;
-	double		posY;
-	double		dirX;
-	double		dirY;
-	double		planeX;
-	double		planeY;
-	double		rayPosX;
-	double		rayPosY;
-	double		rayDirX;
-	double		rayDirY;
-	double		cameraX;
-	int			mapX;
-	int			mapY;
-	double		sideDistX;
-	double		sideDistY;
-	double		deltaDistX;
-	double		deltaDistY;
-	double		perpWallDist;
-	int			stepX;
-	int			stepY;
+	double		x_pos;
+	double		y_pos;
+	double		x_dir;
+	double		y_dir;
+	double		x_plane;
+	double		y_plane;
+	double		time;
+	double		oldTime;
+	double		x_cam;
+	double		x_rayPos;
+	double		y_rayPos;
+	double		x_rayDir;
+	double		y_rayDir;
+	int			x_map;
+	int			y_map;
+	double		x_sideDist;
+	double		y_sideDist;
+	double		x_deltaDist;
+	double		y_deltaDist;
+	double		wallDist;
+	int			x_step;
+	int			y_step;
 	int			hit;
 	int			side;
-	int			h;
-	int			drawStart;
-	int			drawEnd;
 	int			lineHeight;
-	int			delete1;
+	int			start;
+	int			end;
+	double		x_oldDir;
+	double		x_oldPlane;
+	double		ms;
+	double		rs;
 }				t_wolf3d;
 
-void			calc(t_wolf3d *t);
-void			quit(void);
+void			draw_line(int x, t_wolf3d *t, int clor);
+void			put_pxl_to_img(t_wolf3d *t, int x, int y, int color);
+int				key_hook(int keycode, t_wolf3d *t);
+int				key_hook2(int keycode, t_wolf3d *t);
+int				ft_close(void);
+void			mlx_win_init(t_wolf3d *t);
+void			wolf3d_init(t_wolf3d *t);
 int				parser(t_wolf3d *t, char **av);
 int				parser2(t_wolf3d *t, char **av);
+void			ray_casting(t_wolf3d *t);
+void			ray_casting_init(t_wolf3d *t, int x);
+void			dda(t_wolf3d *t);
+void			dda_init(t_wolf3d *t);
 #endif

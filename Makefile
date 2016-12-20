@@ -6,14 +6,14 @@
 #    By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 12:18:57 by tglandai          #+#    #+#              #
-#    Updated: 2016/12/19 17:35:58 by tglandai         ###   ########.fr        #
+#    Updated: 2016/12/20 20:45:30 by tglandai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = wolf3d
 
 SRC_PATH = srcs
-SRC_NAME = main.c parser.c calc.c
+SRC_NAME = main.c parser.c ray_casting.c hook.c draw.c
 
 OBJ_PATH = objs
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -21,12 +21,12 @@ OBJ_NAME = $(SRC_NAME:.c=.o)
 CC = clang
 CFLAGS = -Wall -Werror -Wextra
 
-CPPFLAGS = -I includes -I libft/includes -I mlx_macos_sierra
+CPPFLAGS = -I includes -I libft/includes
 #-I mlx_macos_sierra
 #-I x11
 
 LDFLAGS = -L libft
-LDLIBS = -lft -lm -L mlx_macos_sierra -lmlx -framework OpenGL -framework AppKit
+LDLIBS = -lft -lm -lmlx -framework OpenGL -framework AppKit
 #-lmlx_Linux -L/usr/X11/lib -lXext -lX11
 #-L mlx_macos_sierra
 
