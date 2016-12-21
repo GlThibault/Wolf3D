@@ -6,11 +6,28 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/17 15:35:38 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/18 15:19:13 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/21 15:03:38 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
+
+int		check_map(char *buff)
+{
+	int		i;
+
+	i = 0;
+	while (buff[i] && buff[i] != '\0')
+	{
+		if ((buff[i] < 48 || buff[i] > 57) && buff[i] != ' ' && buff[i] != '\n')
+		{
+			ft_putstr("Map error\n");
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
 
 int		parser2(t_wolf3d *t, char **av)
 {
@@ -48,7 +65,7 @@ int		parser(t_wolf3d *t, char **av)
 
 	buff = ft_strnew(65536);
 	fd = open(av[1], O_RDONLY);
-	if (fd < 0 || (read(fd, buff, 65536)) < 1)
+	if (fd < 0 || (read(fd, buff, 65535)) < 1)
 	{
 		ft_putstr("wolf3d: ");
 		ft_putstr(av[1]);
@@ -57,6 +74,9 @@ int		parser(t_wolf3d *t, char **av)
 	}
 	t->lenline = ft_linelen(buff);
 	t->nb_lines = ft_countlines(buff);
+	if (!(check_map(buff)))
+		return (0);
+	ft_strdel(&buff);
 	t->map_name = av[1];
 	close(fd);
 	if (!(t->map = (int **)malloc(sizeof(int *) * t->nb_lines)))

@@ -6,38 +6,37 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 13:49:39 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/20 21:28:30 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/21 14:05:03 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
-#include <stdio.h>
 
 void	dda_init(t_wolf3d *t)
 {
-	t->x_deltaDist = sqrt(1 + (t->y_rayDir * t->y_rayDir)
-			/ (t->x_rayDir * t->x_rayDir));
-	t->y_deltaDist = sqrt(1 + (t->x_rayDir * t->x_rayDir)
-			/ (t->y_rayDir * t->y_rayDir));
-	if (t->x_rayDir < 0)
+	t->x_deltadist = sqrt(1 + (t->y_raydir * t->y_raydir)
+			/ (t->x_raydir * t->x_raydir));
+	t->y_deltadist = sqrt(1 + (t->x_raydir * t->x_raydir)
+			/ (t->y_raydir * t->y_raydir));
+	if (t->x_raydir < 0)
 	{
 		t->x_step = -1;
-		t->x_sideDist = (t->x_rayPos - t->x_map) * t->x_deltaDist;
+		t->x_sidedist = (t->x_raypos - t->x_map) * t->x_deltadist;
 	}
 	else
 	{
 		t->x_step = 1;
-		t->x_sideDist = (t->x_map + 1.0 - t->x_rayPos) * t->x_deltaDist;
+		t->x_sidedist = (t->x_map + 1.0 - t->x_raypos) * t->x_deltadist;
 	}
-	if (t->y_rayDir < 0)
+	if (t->y_raydir < 0)
 	{
 		t->y_step = -1;
-		t->y_sideDist = (t->y_rayPos - t->y_map) * t->y_deltaDist;
+		t->y_sidedist = (t->y_raypos - t->y_map) * t->y_deltadist;
 	}
 	else
 	{
 		t->y_step = 1;
-		t->y_sideDist = (t->y_map + 1.0 - t->y_rayPos) * t->y_deltaDist;
+		t->y_sidedist = (t->y_map + 1.0 - t->y_raypos) * t->y_deltadist;
 	}
 }
 
@@ -46,15 +45,15 @@ void	dda(t_wolf3d *t)
 	t->hit = 0;
 	while (t->hit == 0)
 	{
-		if (t->x_sideDist < t->y_sideDist)
+		if (t->x_sidedist < t->y_sidedist)
 		{
-			t->x_sideDist += t->x_deltaDist;
+			t->x_sidedist += t->x_deltadist;
 			t->x_map += t->x_step;
 			t->side = 0;
 		}
 		else
 		{
-			t->y_sideDist += t->y_deltaDist;
+			t->y_sidedist += t->y_deltadist;
 			t->y_map += t->y_step;
 			t->side = 1;
 		}
@@ -65,21 +64,35 @@ void	dda(t_wolf3d *t)
 
 void	ray_casting_init(t_wolf3d *t, int x)
 {
-	t->x_cam = 2 * x / winX - 1;
-	t->x_rayPos = t->x_pos;
-	t->y_rayPos = t->y_pos;
-	t->x_rayDir = t->x_dir + t->x_plane * t->x_cam;
-	t->y_rayDir = t->y_dir + t->y_plane * t->x_cam;
-	t->x_map = t->x_rayPos;
-	t->y_map = t->y_rayPos;
+	t->x_cam = 2 * x / (double)(WINX) - 1;
+	t->x_raypos = t->x_pos;
+	t->y_raypos = t->y_pos;
+	t->x_raydir = t->x_dir + t->x_plane * t->x_cam;
+	t->y_raydir = t->y_dir + t->y_plane * t->x_cam;
+	t->x_map = (int)t->x_raypos;
+	t->y_map = (int)t->y_raypos;
 	dda_init(t);
 	dda(t);
 	if (t->side == 0)
-		t->wallDist = (t->x_map - t->x_rayPos +
-				(1 - t->x_step / 2) / t->x_rayDir);
+		t->walldist = (t->x_map - t->x_raypos +
+				(1 - t->x_step) / 2) / t->x_raydir;
 	else
-		t->wallDist = (t->y_map - t->y_rayPos +
-				(1 - t->y_step / 2) / t->y_rayDir);
+		t->walldist = (t->y_map - t->y_raypos +
+				(1 - t->y_step) / 2) / t->y_raydir;
+}
+
+void	floor_and_ceiling(t_wolf3d *t, int x)
+{
+	if (t->start > 0)
+	{
+		t->color = 0x66CCFF;
+		draw_line(x, 0, t->start, t);
+	}
+	if (t->end > 0)
+	{
+		t->color = 0x333333;
+		draw_line(x, t->end, WINY, t);
+	}
 }
 
 void	ray_casting(t_wolf3d *t)
@@ -87,23 +100,24 @@ void	ray_casting(t_wolf3d *t)
 	int	x;
 
 	x = 0;
-	t->img = mlx_new_image(t->mlx, winX, winY);
+	t->img = mlx_new_image(t->mlx, WINX, WINY);
 	t->img_ptr = mlx_get_data_addr(t->img, &t->bpp, &t->sl, &t->endian);
-	while (x < winX)
+	while (x < WINX)
 	{
 		ray_casting_init(t, x);
-		printf("%d\n", t->lineHeight);
-		t->lineHeight = winY / t->wallDist;
-		t->start = -t->lineHeight / 2 + winY / 2;
+		t->lineheight = (int)(WINY / t->walldist);
+		t->start = -t->lineheight / 2 + WINY / 2;
 		if (t->start < 0)
 			t->start = 0;
-		t->end = t->lineHeight / 2 + winY / 2;
-		if (t->end >= winY)
-			t->end = winY - 1;
+		t->end = t->lineheight / 2 + WINY / 2;
+		if (t->end >= WINY)
+			t->end = WINY - 1;
 		if (t->side == 1)
-			draw_line(x, t, 0xdd8800);
+			t->color = 0xdd8800;
 		else
-			draw_line(x, t, 0x0088dd);
+			t->color = 0x00FF00;
+		draw_line(x, t->start, t->end, t);
+		floor_and_ceiling(t, x);
 		x++;
 	}
 	mlx_put_image_to_window(t->mlx, t->win, t->img, 0, 0);

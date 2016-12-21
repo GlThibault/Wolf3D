@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:50:28 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/20 21:03:02 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/21 16:09:17 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,21 @@ void	mlx_win_init(t_wolf3d *t)
 
 	title = ft_strjoin("Wolf3d : ", t->map_name);
 	t->mlx = mlx_init();
-	t->win = mlx_new_window(t->mlx, winX, winY, title);
+	t->win = mlx_new_window(t->mlx, WINX, WINY, title);
+	ft_strdel(&title);
 }
 
 void	wolf3d_init(t_wolf3d *t)
 {
-	t->x_pos = 2;
-	t->y_pos = 2;
+	t->x_pos = 3;
+	t->y_pos = 3;
 	t->x_dir = -1;
 	t->y_dir = 0;
 	t->x_plane = 0;
 	t->y_plane = 0.66;
-	t->time = 0;
-	t->oldTime = 0;
+	t->ms = 0.05;
+	t->rs = 0.05;
+	t->help = 1;
 }
 
 int		main(int ac, char **av)
@@ -54,8 +56,10 @@ int		main(int ac, char **av)
 		return (0);
 	mlx_win_init(t);
 	mlx_hook(t->win, 17, 0L, ft_close, t);
-	mlx_key_hook(t->win, key_hook, t);
+	mlx_hook(t->win, 2, (1L << 0), key_press, t);
+	mlx_hook(t->win, 3, (1L << 1), key_release, t);
 	wolf3d_init(t);
 	ray_casting(t);
+	mlx_loop_hook(t->mlx, move, t);
 	mlx_loop(t->mlx);
 }

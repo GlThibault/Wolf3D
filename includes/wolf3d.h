@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:51:03 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/20 21:23:20 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/21 15:10:14 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <mlx.h>
 # include <math.h>
 
-# define winX 1024
-# define winY 768
+# define WINX 1024
+# define WINY 768
 # define USAGE "usage: wolf3d \"map\"\n"
 
 typedef struct	s_wolf3d
@@ -43,44 +43,55 @@ typedef struct	s_wolf3d
 	double		y_dir;
 	double		x_plane;
 	double		y_plane;
-	double		time;
-	double		oldTime;
 	double		x_cam;
-	double		x_rayPos;
-	double		y_rayPos;
-	double		x_rayDir;
-	double		y_rayDir;
+	double		x_raypos;
+	double		y_raypos;
+	double		x_raydir;
+	double		y_raydir;
 	int			x_map;
 	int			y_map;
-	double		x_sideDist;
-	double		y_sideDist;
-	double		x_deltaDist;
-	double		y_deltaDist;
-	double		wallDist;
+	double		x_sidedist;
+	double		y_sidedist;
+	double		x_deltadist;
+	double		y_deltadist;
+	double		walldist;
 	int			x_step;
 	int			y_step;
 	int			hit;
 	int			side;
-	int			lineHeight;
+	int			lineheight;
 	int			start;
 	int			end;
-	double		x_oldDir;
-	double		x_oldPlane;
+	double		x_olddir;
+	double		x_oldplane;
 	double		ms;
 	double		rs;
+	double		x_floor;
+	double		y_floor;
+	double		x_oldfloor;
+	double		y_oldfloor;
+	int			color;
+	int			move_up;
+	int			move_down;
+	int			move_left;
+	int			move_right;
+	int			help;
 }				t_wolf3d;
 
-void			draw_line(int x, t_wolf3d *t, int clor);
+void			draw_line(int x, int start, int end, t_wolf3d *t);
 void			put_pxl_to_img(t_wolf3d *t, int x, int y, int color);
-int				key_hook(int keycode, t_wolf3d *t);
-int				key_hook2(int keycode, t_wolf3d *t);
+int				key_press(int keycode, t_wolf3d *t);
+int				key_release(int keycode, t_wolf3d *t);
+int				move(t_wolf3d *t);
 int				ft_close(void);
 void			mlx_win_init(t_wolf3d *t);
 void			wolf3d_init(t_wolf3d *t);
+int				check_map(char *buff);
 int				parser(t_wolf3d *t, char **av);
 int				parser2(t_wolf3d *t, char **av);
 void			ray_casting(t_wolf3d *t);
 void			ray_casting_init(t_wolf3d *t, int x);
+void			floor_and_ceiling(t_wolf3d *t, int x);
 void			dda(t_wolf3d *t);
 void			dda_init(t_wolf3d *t);
 #endif
