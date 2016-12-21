@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 10:51:17 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/21 16:31:25 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/21 17:45:17 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,5 @@ int		move(t_wolf3d *t)
 	ray_casting(t);
 	if (t->help == 1)
 		help_text(t);
-	mlx_xpm_file_to_image(t->mlx, wall.xpm);
 	return (0);
 }
