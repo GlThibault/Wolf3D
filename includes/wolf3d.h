@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:51:03 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/22 20:43:11 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/22 21:57:39 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,23 +75,28 @@ typedef struct	s_wolf3d
 	double		x_oldplane;
 	double		ms;
 	double		rs;
-	double		x_floor;
-	double		y_floor;
-	double		x_oldfloor;
-	double		y_oldfloor;
 	int			color;
 	int			move_up;
 	int			move_down;
 	int			move_left;
 	int			move_right;
 	int			help;
-	t_tex		tex[3];
+	t_tex		tex[9];
 	int			x_text;
 	int			y_text;
 	double		x_wall;
 	int			id;
 	int			texture;
 	int			y_postext;
+	int			x_floor;
+	int			y_floor;
+	int			x_curfloor;
+	int			y_curfloor;
+	int			x_floortext;
+	int			y_floortext;
+	double		playerdist;
+	double		curdist;
+	double		weight;
 }				t_wolf3d;
 
 void			draw_line_wall(int x, int start, int end, t_wolf3d *t);

@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:50:28 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/22 20:33:39 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/22 20:57:44 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	load_textures(t_wolf3d *t)
 	t->tex[2].img = mlx_xpm_file_to_image(t->mlx, "textures/mossy.xpm", &a, &b);
 	t->tex[2].data = mlx_get_data_addr(t->tex[2].img, &t->tex[2].bpp,
 			&t->tex[2].sizeline, &t->tex[2].endian);
+	t->tex[3].img = mlx_xpm_file_to_image(t->mlx, "textures/redbrick.xpm", &a, &b);
+	t->tex[3].data = mlx_get_data_addr(t->tex[3].img, &t->tex[3].bpp,
+			&t->tex[3].sizeline, &t->tex[3].endian);
 }
 
 int		ft_close(void)
