@@ -6,28 +6,14 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 10:51:17 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/21 17:45:17 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/22 20:37:44 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-int		key_press(int keycode, t_wolf3d *t)
+int		key_press2(int keycode, t_wolf3d *t)
 {
-	if (keycode == 13 || keycode == 126)
-		t->move_up = 1;
-	if (keycode == 1 || keycode == 125)
-		t->move_down = 1;
-	if (keycode == 2 || keycode == 124)
-		t->move_right = 1;
-	if (keycode == 0 || keycode == 123)
-		t->move_left = 1;
-	if (keycode == 257 || keycode == 258)
-		t->ms = 0.1;
-	if (keycode == 53)
-		exit(1);
-	if (keycode == 117)
-		wolf3d_init(t);
 	if (keycode == 4)
 	{
 		if (t->help == 0)
@@ -35,6 +21,34 @@ int		key_press(int keycode, t_wolf3d *t)
 		else
 			t->help = 0;
 	}
+	else if (keycode == 17)
+	{
+		if (t->texture == 0)
+			t->texture = 1;
+		else
+			t->texture = 0;
+	}
+	return (0);
+}
+
+int		key_press(int keycode, t_wolf3d *t)
+{
+	if (keycode == 13 || keycode == 126)
+		t->move_up = 1;
+	else if (keycode == 1 || keycode == 125)
+		t->move_down = 1;
+	else if (keycode == 2 || keycode == 124)
+		t->move_right = 1;
+	else if (keycode == 0 || keycode == 123)
+		t->move_left = 1;
+	else if (keycode == 257 || keycode == 258)
+		t->ms = 0.1;
+	else if (keycode == 53)
+		exit(1);
+	else if (keycode == 117)
+		wolf3d_init(t);
+	else
+		key_press2(keycode, t);
 	return (0);
 }
 
@@ -42,26 +56,15 @@ int		key_release(int keycode, t_wolf3d *t)
 {
 	if (keycode == 13 || keycode == 126)
 		t->move_up = 0;
-	if (keycode == 1 || keycode == 125)
+	else if (keycode == 1 || keycode == 125)
 		t->move_down = 0;
-	if (keycode == 2 || keycode == 124)
+	else if (keycode == 2 || keycode == 124)
 		t->move_right = 0;
-	if (keycode == 0 || keycode == 123)
+	else if (keycode == 0 || keycode == 123)
 		t->move_left = 0;
-	if (keycode == 257 || keycode == 258)
+	else if (keycode == 257 || keycode == 258)
 		t->ms = 0.05;
 	return (0);
-}
-
-void	help_text(t_wolf3d *t)
-{
-	mlx_string_put(t->mlx, t->win, 10, 10,
-			0xEEEEEE, "Press W A S D or the arrow keys to move.");
-	mlx_string_put(t->mlx, t->win, 10, 30, 0xEEEEEE, "Press SHIFT to sprint.");
-	mlx_string_put(t->mlx, t->win, 10, 50,
-			0xEEEEEE, "Press DEL to reset the level.");
-	mlx_string_put(t->mlx, t->win, 10, 70,
-			0xEEEEEE, "Press H to show or hide this help.");
 }
 
 void	move_side(t_wolf3d *t)

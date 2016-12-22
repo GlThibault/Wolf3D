@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 13:49:39 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/21 14:05:03 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/22 20:15:57 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	ray_casting(t_wolf3d *t)
 			t->color = 0xdd8800;
 		else
 			t->color = 0x00FF00;
-		draw_line(x, t->start, t->end, t);
+		draw_line_wall(x, t->start, t->end, t);
 		floor_and_ceiling(t, x);
 		x++;
 	}

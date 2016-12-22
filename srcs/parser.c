@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/17 15:35:38 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/21 15:03:38 by tglandai         ###   ########.fr       */
+/*   Updated: 2016/12/21 18:13:36 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int		parser(t_wolf3d *t, char **av)
 
 	buff = ft_strnew(65536);
 	fd = open(av[1], O_RDONLY);
-	if (fd < 0 || (read(fd, buff, 65535)) < 1)
+	if (fd < 0 || (read(fd, buff, 65536)) < 1)
 	{
 		ft_putstr("wolf3d: ");
 		ft_putstr(av[1]);
