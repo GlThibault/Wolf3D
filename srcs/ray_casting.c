@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 13:49:39 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/22 20:15:57 by tglandai         ###   ########.fr       */
+/*   Updated: 2017/01/01 23:23:50 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,30 @@ void	ray_casting_init(t_wolf3d *t, int x)
 
 void	floor_and_ceiling(t_wolf3d *t, int x)
 {
-	if (t->start > 0)
+	if (t->texture == 1)
+		draw_floor_and_ceiling(t, x, -1);
+	else
 	{
-		t->color = 0x66CCFF;
-		draw_line(x, 0, t->start, t);
-	}
-	if (t->end > 0)
-	{
-		t->color = 0x333333;
-		draw_line(x, t->end, WINY, t);
+		if (t->start > 0)
+		{
+			t->color = 0x66CCFF;
+			t->y = -1;
+			if (x < WINX && t->y < WINY)
+				while (++t->y < t->start)
+				{
+					ft_memcpy(t->img_ptr + 4 * WINX * t->y + x * 4,
+							&t->color, sizeof(int));
+				}
+		}
+		if (t->end > 0)
+		{
+			t->color = 0x333333;
+			t->y = t->end - 1;
+			if (x < WINX && t->y < WINY)
+				while (++t->y < WINY)
+					ft_memcpy(t->img_ptr + 4 * WINX * t->y + x * 4,
+							&t->color, sizeof(int));
+		}
 	}
 }
 
@@ -99,10 +114,10 @@ void	ray_casting(t_wolf3d *t)
 {
 	int	x;
 
-	x = 0;
+	x = -1;
 	t->img = mlx_new_image(t->mlx, WINX, WINY);
 	t->img_ptr = mlx_get_data_addr(t->img, &t->bpp, &t->sl, &t->endian);
-	while (x < WINX)
+	while (++x < WINX)
 	{
 		ray_casting_init(t, x);
 		t->lineheight = (int)(WINY / t->walldist);
@@ -116,9 +131,8 @@ void	ray_casting(t_wolf3d *t)
 			t->color = 0xdd8800;
 		else
 			t->color = 0x00FF00;
-		draw_line_wall(x, t->start, t->end, t);
+		draw_line_wall(x, t->start - 1, t->end, t);
 		floor_and_ceiling(t, x);
-		x++;
 	}
 	mlx_put_image_to_window(t->mlx, t->win, t->img, 0, 0);
 	mlx_destroy_image(t->mlx, t->img);

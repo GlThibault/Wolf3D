@@ -6,78 +6,64 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 20:41:03 by tglandai          #+#    #+#             */
-/*   Updated: 2016/12/22 22:12:57 by tglandai         ###   ########.fr       */
+/*   Updated: 2017/01/01 23:20:45 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
-#include <stdio.h>
+
 void	put_pxl_to_img_wall(t_wolf3d *t, int x, int y, int color)
 {
-	int d;
-
-	d = y * 256 - WINY * 128 + t->lineheight * 128;
-	t->y_text = ((d * 64) / t->lineheight) / 256;
-	t->y_text = abs(t->y_text);
 	if (t->texture == 1 && x < WINX && y < WINY)
 	{
-		color = mlx_get_color_value(t->mlx, color);
+		t->y_text = abs((((y * 256 - WINY * 128 + t->lineheight * 128) * 64)
+					/ t->lineheight) / 256);
 		ft_memcpy(t->img_ptr + 4 * WINX * y + x * 4,
 				&t->tex[t->id].data[t->y_text % 64 * t->tex[t->id].sizeline +
 				t->x_text % 64 * t->tex[t->id].bpp / 8], sizeof(int));
 	}
 	else if (x < WINX && y < WINY)
-	{
-		color = mlx_get_color_value(t->mlx, color);
 		ft_memcpy(t->img_ptr + 4 * WINX * y + x * 4,
 				&color, sizeof(int));
-	}
 }
 
 void	draw_line_wall(int x, int start, int end, t_wolf3d *t)
 {
-	t->id = t->map[t->x_map][t->y_map];
-	if (t->side == 0)
-		t->x_wall = t->y_raypos + t->walldist * t->y_raydir;
-	else
-		t->x_wall = t->x_raypos + t->walldist * t->x_raydir;
-	t->x_text = (int)(t->x_wall * (double)(64));
-	if (t->side == 0 && t->x_raydir > 0)
-		t->x_text = 64 - t->x_text - 1;
-	if (t->side == 1 && t->y_raydir < 0)
-		t->x_text = 64 - t->x_text - 1;
-	t->x_text = abs(t->x_text);
-	while (start < end)
+	if (t->texture == 1)
 	{
-		put_pxl_to_img_wall(t, x, start, t->color);
-		start++;
+		t->id = t->map[t->x_map][t->y_map];
+		if (t->side == 0)
+			t->x_wall = t->y_raypos + t->walldist * t->y_raydir;
+		else
+			t->x_wall = t->x_raypos + t->walldist * t->x_raydir;
+		t->x_text = (int)(t->x_wall * (double)(64));
+		if (t->side == 0 && t->x_raydir > 0)
+			t->x_text = 64 - t->x_text - 1;
+		if (t->side == 1 && t->y_raydir < 0)
+			t->x_text = 64 - t->x_text - 1;
+		t->x_text = abs(t->x_text);
 	}
+	while (++start <= end)
+		put_pxl_to_img_wall(t, x, start, t->color);
 }
 
-void	put_pxl_to_img(t_wolf3d *t, int x, int y, int color)
+void	put_pxl_to_img(t_wolf3d *t, int x, int y)
 {
 	t->curdist = WINY / (2.0 * y - WINY);
-	t->weight = (t->curdist) / (t->walldist);
-	t->x_curfloor = t->weight * t->x_floor + (1.0 - t->weight) * t->x_pos;
-	t->y_curfloor = t->weight * t->y_floor + (1.0 - t->weight) * t->y_pos;
-	t->x_floortext = (int)(t->x_curfloor * 64) % 64;
-	t->y_floortext = (int)(t->y_curfloor * 64) % 64;
-	/*if (t->texture == 1 && x < WINX && y < WINY)
-	{
-		color = mlx_get_color_value(t->mlx, color);
-		ft_memcpy(t->img_ptr + 4 * WINX * y + x * 4,
-				&t->tex[t->id].data[t->y_floortext % 64 * t->tex[t->id].sizeline +
-				t->x_floortext % 64 * t->tex[t->id].bpp / 8], sizeof(int));
-	}*/
-	if (x < WINX && y < WINY)
-	{
-		color = mlx_get_color_value(t->mlx, color);
-		ft_memcpy(t->img_ptr + 4 * WINX * y + x * 4,
-				&color, sizeof(int));
-	}
+	t->weight = t->curdist / t->walldist;
+	t->x_curfloortext = t->weight * t->x_floor + (1.0 - t->weight) * t->x_pos;
+	t->y_curfloortext = t->weight * t->y_floor + (1.0 - t->weight) * t->y_pos;
+	t->x_floortext = (int)(t->x_curfloortext * 64) % 64;
+	t->y_floortext = (int)(t->y_curfloortext * 64) % 64;
+	ft_memcpy(t->img_ptr + 4 * WINX * y + x * 4,
+			&t->tex[t->id].data[t->y_floortext % 64 * t->tex[t->id].sizeline +
+			t->x_floortext % 64 * t->tex[t->id].bpp / 8], sizeof(int));
+	ft_memcpy(t->img_ptr + 4 * WINX * (WINY - y) + x * 4,
+			&t->tex[t->id].data[t->y_floortext % 64 * t->tex[t->id].sizeline +
+			t->x_floortext % 64 * t->tex[t->id].bpp / 8], sizeof(int));
 }
 
-void	draw_line(int x, int start, int end, t_wolf3d *t)
+void	draw_floor_and_ceiling(t_wolf3d *t, int x, int y)
 {
 	if (t->side == 0 && t->x_raydir > 0)
 	{
@@ -99,10 +85,7 @@ void	draw_line(int x, int start, int end, t_wolf3d *t)
 		t->x_floor = t->x_map + t->x_wall;
 		t->y_floor = t->y_map + 1.0;
 	}
-	t->id = 1;
-	while (start < end)
-	{
-		put_pxl_to_img(t, x, start, t->color);
-		start++;
-	}
+	t->id = 4;
+	while (++y < t->start)
+		put_pxl_to_img(t, x, y);
 }
