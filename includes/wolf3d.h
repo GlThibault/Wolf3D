@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:51:03 by tglandai          #+#    #+#             */
-/*   Updated: 2017/01/02 13:28:05 by tglandai         ###   ########.fr       */
+/*   Updated: 2017/01/02 14:51:17 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct	s_wolf3d
 	int			texture;
 	int			x_floortext;
 	int			y_floortext;
+	int			x;
 	int			y;
 	double		x_pos;
 	double		y_pos;
@@ -98,10 +99,10 @@ typedef struct	s_wolf3d
 	double		weight;
 }				t_wolf3d;
 
-void			draw_line_wall(int x, int start, int end, t_wolf3d *t);
-void			draw_floor_and_ceiling(t_wolf3d *t, int x);
-void			put_pxl_to_img_wall(t_wolf3d *t, int x, int y, int color);
-void			put_pxl_to_img(t_wolf3d *t, int x);
+void			draw_sky(t_wolf3d *t);
+void			draw_floor(t_wolf3d *t);
+void			draw_wall(int x, int start, int end, t_wolf3d *t);
+void			put_pxl_to_img(t_wolf3d *t, int x, int y, int color);
 
 int				key_press2(int keycode, t_wolf3d *t);
 int				key_press(int keycode, t_wolf3d *t);
@@ -112,6 +113,8 @@ int				move(t_wolf3d *t);
 void			help_text(t_wolf3d *t);
 
 void			load_textures(t_wolf3d *t);
+void			load_textures2(t_wolf3d *t, int a, int b);
+
 int				ft_close(void);
 void			mlx_win_init(t_wolf3d *t);
 void			wolf3d_init(t_wolf3d *t);

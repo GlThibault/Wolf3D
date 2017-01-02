@@ -6,14 +6,14 @@
 #    By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 12:18:57 by tglandai          #+#    #+#              #
-#    Updated: 2017/01/02 13:56:02 by tglandai         ###   ########.fr        #
+#    Updated: 2017/01/02 14:46:22 by tglandai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = wolf3d
 
 SRC_PATH = srcs
-SRC_NAME = main.c parser.c ray_casting.c hook.c draw.c hud.c
+SRC_NAME = main.c parser.c ray_casting.c hook.c draw.c hud.c textures.c
 
 OBJ_PATH = objs
 OBJ_NAME = $(SRC_NAME:.c=.o)

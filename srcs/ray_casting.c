@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 13:49:39 by tglandai          #+#    #+#             */
-/*   Updated: 2017/01/02 13:17:45 by tglandai         ###   ########.fr       */
+/*   Updated: 2017/01/02 14:52:45 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,43 +83,38 @@ void	ray_casting_init(t_wolf3d *t, int x)
 
 void	floor_and_ceiling(t_wolf3d *t, int x)
 {
-	if (t->texture == 1)
-		draw_floor_and_ceiling(t, x);
-	else
+	if (t->start > 0)
 	{
-		if (t->start > 0)
-		{
-			t->color = 0x66CCFF;
-			t->y = -1;
-			if (x < WINX && t->y < WINY)
-				while (++t->y < t->start)
-				{
-					ft_memcpy(t->img_ptr + 4 * WINX * t->y + x * 4,
-							&t->color, sizeof(int));
-				}
-		}
-		if (t->end > 0)
-		{
-			t->color = 0x333333;
-			t->y = t->end - 1;
-			if (x < WINX && t->y < WINY)
-				while (++t->y < WINY)
-					ft_memcpy(t->img_ptr + 4 * WINX * t->y + x * 4,
-							&t->color, sizeof(int));
-		}
+		t->color = 0x66CCFF;
+		t->y = -1;
+		if (x < WINX && t->y < WINY)
+			while (++t->y < t->start)
+			{
+				ft_memcpy(t->img_ptr + 4 * WINX * t->y + x * 4,
+						&t->color, sizeof(int));
+			}
+	}
+	if (t->end > 0)
+	{
+		t->color = 0x333333;
+		t->y = t->end - 1;
+		if (x < WINX && t->y < WINY)
+			while (++t->y < WINY)
+				ft_memcpy(t->img_ptr + 4 * WINX * t->y + x * 4,
+						&t->color, sizeof(int));
 	}
 }
 
 void	ray_casting(t_wolf3d *t)
 {
-	int	x;
-
-	x = -1;
+	t->x = -1;
 	t->img = mlx_new_image(t->mlx, WINX, WINY);
 	t->img_ptr = mlx_get_data_addr(t->img, &t->bpp, &t->sl, &t->endian);
-	while (++x < WINX)
+	if (t->texture == 1)
+		draw_sky(t);
+	while (++t->x < WINX)
 	{
-		ray_casting_init(t, x);
+		ray_casting_init(t, t->x);
 		t->lineheight = (int)(WINY / t->walldist);
 		t->start = -t->lineheight / 2 + WINY / 2;
 		if (t->start < 0)
@@ -131,8 +126,9 @@ void	ray_casting(t_wolf3d *t)
 			t->color = 0xdd8800;
 		else
 			t->color = 0x00FF00;
-		draw_line_wall(x, t->start - 1, t->end, t);
-		floor_and_ceiling(t, x);
+		draw_wall(t->x, t->start - 1, t->end, t);
+		if (t->texture == 0)
+			floor_and_ceiling(t, t->x);
 	}
 	mlx_put_image_to_window(t->mlx, t->win, t->img, 0, 0);
 	mlx_destroy_image(t->mlx, t->img);
