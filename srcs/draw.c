@@ -6,12 +6,12 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 20:41:03 by tglandai          #+#    #+#             */
-/*   Updated: 2017/01/01 23:20:45 by tglandai         ###   ########.fr       */
+/*   Updated: 2017/01/02 13:28:20 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
-
+#include <stdio.h>
 void	put_pxl_to_img_wall(t_wolf3d *t, int x, int y, int color)
 {
 	if (t->texture == 1 && x < WINX && y < WINY)
@@ -47,23 +47,25 @@ void	draw_line_wall(int x, int start, int end, t_wolf3d *t)
 		put_pxl_to_img_wall(t, x, start, t->color);
 }
 
-void	put_pxl_to_img(t_wolf3d *t, int x, int y)
+void	put_pxl_to_img(t_wolf3d *t, int x)
 {
-	t->curdist = WINY / (2.0 * y - WINY);
-	t->weight = t->curdist / t->walldist;
+	t->curdist = WINY / (2.0 * t->y - WINY);
+	t->weight = fabs(t->curdist / t->walldist);
+	//printf("%f\n", t->weight);
 	t->x_curfloortext = t->weight * t->x_floor + (1.0 - t->weight) * t->x_pos;
 	t->y_curfloortext = t->weight * t->y_floor + (1.0 - t->weight) * t->y_pos;
-	t->x_floortext = (int)(t->x_curfloortext * 64) % 64;
-	t->y_floortext = (int)(t->y_curfloortext * 64) % 64;
-	ft_memcpy(t->img_ptr + 4 * WINX * y + x * 4,
-			&t->tex[t->id].data[t->y_floortext % 64 * t->tex[t->id].sizeline +
-			t->x_floortext % 64 * t->tex[t->id].bpp / 8], sizeof(int));
-	ft_memcpy(t->img_ptr + 4 * WINX * (WINY - y) + x * 4,
+	t->x_floortext = (int)((int)(t->x_curfloortext * 64) % 64);
+	t->y_floortext = (int)((int)(t->y_curfloortext * 64) % 64);
+	//printf("%d, %d\n", t->x_floortext, t->y_floortext);
+	ft_memcpy(t->img_ptr + 4 * WINX * t->y + x * 4,
+			&t->tex[t->id].data[t->y_floortext * t->tex[t->id].sizeline +
+			t->x_floortext * t->tex[t->id].bpp / 8], sizeof(int));
+	ft_memcpy(t->img_ptr + 4 * WINX * (WINY - t->y) + x * 4,
 			&t->tex[t->id].data[t->y_floortext % 64 * t->tex[t->id].sizeline +
 			t->x_floortext % 64 * t->tex[t->id].bpp / 8], sizeof(int));
 }
 
-void	draw_floor_and_ceiling(t_wolf3d *t, int x, int y)
+void	draw_floor_and_ceiling(t_wolf3d *t, int x)
 {
 	if (t->side == 0 && t->x_raydir > 0)
 	{
@@ -86,6 +88,7 @@ void	draw_floor_and_ceiling(t_wolf3d *t, int x, int y)
 		t->y_floor = t->y_map + 1.0;
 	}
 	t->id = 4;
-	while (++y < t->start)
-		put_pxl_to_img(t, x, y);
+	t->y = -1;
+	while (++t->y < t->start)
+		put_pxl_to_img(t, x);
 }

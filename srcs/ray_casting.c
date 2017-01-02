@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 13:49:39 by tglandai          #+#    #+#             */
-/*   Updated: 2017/01/01 23:23:50 by tglandai         ###   ########.fr       */
+/*   Updated: 2017/01/02 13:17:45 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ray_casting_init(t_wolf3d *t, int x)
 void	floor_and_ceiling(t_wolf3d *t, int x)
 {
 	if (t->texture == 1)
-		draw_floor_and_ceiling(t, x, -1);
+		draw_floor_and_ceiling(t, x);
 	else
 	{
 		if (t->start > 0)

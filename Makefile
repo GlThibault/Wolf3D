@@ -6,7 +6,7 @@
 #    By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 12:18:57 by tglandai          #+#    #+#              #
-#    Updated: 2016/12/22 20:33:59 by tglandai         ###   ########.fr        #
+#    Updated: 2017/01/02 13:56:02 by tglandai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,21 +22,16 @@ CC = clang
 CFLAGS = -Wall -Werror -Wextra
 
 CPPFLAGS = -I includes -I libft/includes
-#-I mlx_macos_sierra
-#-I x11
 
 LDFLAGS = -L libft
 LDLIBS = -lft -lm -lmlx -framework OpenGL -framework AppKit
-#-lmlx_Linux -L/usr/X11/lib -lXext -lX11
-#-L mlx_macos_sierra
 
 SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
 
-all: $(NAME)
+all: libft $(NAME)
 
-$(NAME): $(OBJ)
-	@make -C libft
+$(NAME): $(OBJ) libft/libft.a
 	@$(CC) $(LDFLAGS) $(LDLIBS) $^ -o $@
 	@echo "Compilation of Wolf3d:	\033[1;32mOK\033[m"
 
@@ -44,17 +39,23 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
 	@$(CC) $(CFLAGS) -c $< $(CPPFLAGS) -o $@
 
+libft:
+	@make -C libft
+
 clean:
 	@make -C libft clean
 	@rm -f $(OBJ)
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
 	@echo "Wolf3d:	Removing Objs"
 
-fclean: clean
+fclean:
 	@make -C libft fclean
+	@rm -f $(OBJ)
+	@rmdir $(OBJ_PATH) 2> /dev/null || true
+	@echo "Wolf3d:	Removing Objs"
 	@rm -f $(NAME)
 	@echo "Wolf3d:	Removing Wolf3d"
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft
