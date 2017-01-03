@@ -6,7 +6,7 @@
 #    By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 12:18:57 by tglandai          #+#    #+#              #
-#    Updated: 2017/01/03 11:43:18 by tglandai         ###   ########.fr        #
+#    Updated: 2017/01/03 13:01:50 by tglandai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJ_PATH = objs
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
 CC = clang
-CFLAGS = -g -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 
 CPPFLAGS = -I includes -I libft/includes
 
@@ -32,7 +32,7 @@ OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
 all: libft $(NAME)
 
 $(NAME): $(OBJ) libft/libft.a
-	@$(CC) $(LDFLAGS) $(LDLIBS) $^ -o $@ -g
+	@$(CC) $(LDFLAGS) $(LDLIBS) $^ -o $@
 	@echo "Compilation of Wolf3d:	\033[1;32mOK\033[m"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
