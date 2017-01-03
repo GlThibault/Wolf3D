@@ -6,7 +6,7 @@
 /*   By: tglandai <tglandai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:51:03 by tglandai          #+#    #+#             */
-/*   Updated: 2017/01/02 14:51:17 by tglandai         ###   ########.fr       */
+/*   Updated: 2017/01/03 11:52:33 by tglandai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int				ft_close(void);
 void			mlx_win_init(t_wolf3d *t);
 void			wolf3d_init(t_wolf3d *t);
 
-int				check_map(char *buff);
+int				check_map(char *buff, t_wolf3d *t);
 int				parser(t_wolf3d *t, char **av);
 int				parser2(t_wolf3d *t, char **av);
 
