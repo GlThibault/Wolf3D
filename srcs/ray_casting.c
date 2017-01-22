@@ -83,6 +83,7 @@ void	ray_casting_init(t_wolf3d *t, int x)
 
 void	floor_and_ceiling(t_wolf3d *t, int x)
 {
+if (t->texture == 0){
 	if (t->start > 0)
 	{
 		t->color = 0x66CCFF;
@@ -94,6 +95,7 @@ void	floor_and_ceiling(t_wolf3d *t, int x)
 						&t->color, sizeof(int));
 			}
 	}
+}
 	if (t->end > 0)
 	{
 		t->color = 0x333333;
@@ -127,7 +129,7 @@ void	ray_casting(t_wolf3d *t)
 		else
 			t->color = 0x00FF00;
 		draw_wall(t->x, t->start - 1, t->end, t);
-		if (t->texture == 0)
+		// if (t->texture == 0)
 			floor_and_ceiling(t, t->x);
 	}
 	mlx_put_image_to_window(t->mlx, t->win, t->img, 0, 0);

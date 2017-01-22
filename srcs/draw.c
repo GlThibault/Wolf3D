@@ -62,7 +62,7 @@ void	draw_sky(t_wolf3d *t)
 		}
 		t->x_text++;
 	}
-	draw_floor(t);
+	// draw_floor(t);
 }
 
 void	draw_floor(t_wolf3d *t)
